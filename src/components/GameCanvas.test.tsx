@@ -36,6 +36,9 @@ describe('GameCanvas', () => {
   beforeEach(() => {
     container = document.createElement('div');
     document.body.appendChild(container);
+    // Set clientWidth and clientHeight for the container to ensure canvas sizing branches are covered
+    Object.defineProperty(container, 'clientWidth', { value: 500 });
+    Object.defineProperty(container, 'clientHeight', { value: 500 });
 
     // Clear mocks before each test
     vi.mocked(gameStateModule.createInitialState).mockClear();

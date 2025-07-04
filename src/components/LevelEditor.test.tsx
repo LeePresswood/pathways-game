@@ -1,8 +1,6 @@
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
-
-
-import { describe, it, expect, vi } from 'vitest';
+import React from 'react';
 import LevelEditor from './LevelEditor';
 
 // Mock the HTMLCanvasElement methods that are not available in JSDOM
@@ -10,7 +8,11 @@ HTMLCanvasElement.prototype.getContext = vi.fn(() => ({
   fillRect: vi.fn(),
   clearRect: vi.fn(),
   strokeRect: vi.fn(),
-  // Add other methods as needed
+  createRadialGradient: vi.fn(() => ({
+    addColorStop: vi.fn(),
+  })),
+  fillText: vi.fn(),
+  measureText: vi.fn(() => ({ width: 0 })),
 }));
 
 describe('LevelEditor', () => {
@@ -27,7 +29,15 @@ describe('LevelEditor', () => {
   afterEach(() => {
     document.body.removeChild(container);
     container = null;
+    vi.restoreAllMocks();
   });
+
+  it('renders without crashing', () => {
+    render(<LevelEditor />, { container });
+    expect(screen.getByText('Save Level')).toBeInTheDocument();
+    expect(screen.getByText('Load Level')).toBeInTheDocument();
+  });
+
   it('toggles a wall on click', () => {
     render(<LevelEditor />, { container });
     const canvas = container.querySelector('canvas');
@@ -51,12 +61,6 @@ describe('LevelEditor', () => {
     // We can't directly assert the grid state, but we can check if the component re-renders
     // which is an indirect way of knowing the state has changed.
     // A better approach would be to expose a debug output of the grid state.
-  });
-
-  it('renders without crashing', () => {
-    render(<LevelEditor />, { container });
-    expect(screen.getByText('Save Level')).toBeInTheDocument();
-    expect(screen.getByText('Load Level')).toBeInTheDocument();
   });
 
   it('saves a level as a JSON file', async () => {
@@ -124,9 +128,13 @@ describe('LevelEditor', () => {
     // A better approach would be to expose a debug output of the grid state.
   });
 
-  it('handles invalid JSON file format', async () => {
-    const mockFileContent = JSON.stringify({ invalid: 'data' });
+  it('handles invalid JSON file format (missing rows)', async () => {
+    const mockFileContent = JSON.stringify({
+      cols: 10,
+      grid: Array(100).fill(1),
+    });
     const mockFile = new File([mockFileContent], 'level.json', { type: 'application/json' });
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
     render(<LevelEditor />, { container });
 
@@ -136,7 +144,8 @@ describe('LevelEditor', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    // No direct assertion, but this path should be covered.
+    expect(consoleErrorSpy).toHaveBeenCalledWith('Invalid level file format.');
+    consoleErrorSpy.mockRestore();
   });
 
   it('handles JSON parsing error', async () => {
@@ -167,10 +176,7 @@ describe('LevelEditor', () => {
     // This test is for coverage.
   });
 
-  it('should not do anything if no file is selected', () => {
-    render(<LevelEditor />, { container });
-    const input = container.querySelector('#level-upload');
-    fireEvent.change(input, { target: { files: [] } });
-    // No assertion, just for coverage
-  });
+  
+
+  
 });

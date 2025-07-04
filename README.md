@@ -6,6 +6,10 @@ A minimalistic puzzle game built with React, TypeScript, and Vite.
 
 Pathways is a web-based puzzle game where the player creates paths. The interface is designed to be simple and clean, presented in a vertical, mobile-like column.
 
+This entire project, from initial setup to feature implementation and bug fixes, is being developed by a Gemini AI agent. The user guides the development process by providing prompts and instructions, and the Gemini agent translates these into code changes, file modifications, and other necessary actions to build the game.
+
+Developing a game through agentic coding presents unique challenges and benefits. While it can accelerate development by automating repetitive tasks and enabling rapid prototyping, it also introduces complexities such as maintaining consistent code style, debugging AI-generated logic, and ensuring architectural coherence. The primary benefit lies in the potential for increased efficiency and the ability to explore novel solutions, pushing the boundaries of what's possible in software development.
+
 ## Current State
 
 - **UI:** A simple header displays the game's name and navigation links (Blog, Analytics, About). The main game area is a canvas that fills the remaining space.
@@ -33,10 +37,8 @@ Pathways is a puzzle game set on a 2D grid. The player must create a continuous 
 
 ## How to Run
 
-1.  Navigate to the project directory:
-    ```bash
-    cd C:\Users\leepr\Documents\coding2\pathways-game
-    ```
+1.  Navigate to the project directory.
+    
 2.  Install dependencies:
     ```bash
     npm install
@@ -48,11 +50,11 @@ Pathways is a puzzle game set on a 2D grid. The player must create a continuous 
 
 ## Tech Stack
 
-*   **[React](httpss://react.dev/)**: A JavaScript library for building user interfaces.
-*   **[TypeScript](httpss://www.typescriptlang.org/)**: A typed superset of JavaScript that compiles to plain JavaScript.
-*   **[Vite](httpss://vitejs.dev/)**: A fast build tool and development server for modern web projects.
-*   **[Vitest](httpss://vitest.dev/)**: A fast and simple testing framework for Vite projects.
-*   **[ESLint](httpss://eslint.org/)**: A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript.
+*   **[React](https://react.dev/)**: A JavaScript library for building user interfaces.
+*   **[TypeScript](https://www.typescriptlang.org/)**: A typed superset of JavaScript that compiles to plain JavaScript.
+*   **[Vite](https://vitejs.dev/)**: A fast build tool and development server for modern web projects.
+*   **[Vitest](https://vitest.dev/)**: A fast and simple testing framework for Vite projects.
+*   **[ESLint](https://eslint.org/)**: A pluggable and configurable linter tool for identifying and reporting on patterns in JavaScript.
 
 ## Available Scripts
 
